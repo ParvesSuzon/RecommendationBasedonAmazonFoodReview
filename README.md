@@ -98,7 +98,7 @@ with sns.axes_style('white'):
 ```
 **Output**
 ```
-![image](https://user-images.githubusercontent.com/10477414/212487276-9c8b0c88-ca9c-465e-aed0-b65a4a9c4364.png)
+![alt text](https://www.kaggleusercontent.com/kf/109156514/eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..BmxQ9m-LaO6e2hgReLPeCg.q_WX21aQHMC0D4EebrDC7-50mzQxuWA8DVQ3XEQ0FgWkE4esh4EnyXThRgnkOWWCJJYD67R3Sy0BCTyGlGzRNG_lK5TOyDo0IUpRkv-TSwegxE8eIqfRtGZJGPHu658x7TMGUuo6O4IoE1cnN-bdE5W1TtyrKbeSwlQss4E2EVf2Op6BJW4ZlLlkjrQB2Bzq8TUb4sBus41hrobL538nUn1nS-vuPqIyFMiNAGeiuSaWRZ2ARpOfffvmQdKtdl2hNPMujdESbKN_eS_5PE2OnkyEedd66kwCLB9r-q_n2TEeM2Ej9VIrknbexfPRMQZCf1b4yS_BllQbwGF-gPdVvTBx6mIz53GnTYjfFIFLk8qfbuHr8MPCQ3HQsbqCDWLoknBKnPIcLFb_vv0sO9SFgVZRRxnUgZ86fEwExsHYehCqMKN1AA0DU8s-wRhgZ8_i6Oz5pbJ_s6-ol2Pd7p-kO8N5XAAcQ9YYdzVyLFtYMnKCjT0z9ts9niPzWUGH2VLOgmCddhTI5s2gvB-qiYOpoyDH_-9gRYqakPJDOdHSUBKBpxirG9K4ket-pELtrD8YfN2IPrdBGQX0qW01LNHjDTmdUhDJSzSz2p_O0_4blk_tt7Q0JKxT8E4b_J9c2UaAQbbSfcHUlLGfjXVYpQ4qBSy8GY2J2PwNGC378sIyVcfd3-RAkOr5ipeD_W8-0Itm.NRgGDu5woHUqVtA9MEzZRQ/__results___files/__results___16_0.png)
 ```
 ```
 # Summary statistics of 'rating' variable
