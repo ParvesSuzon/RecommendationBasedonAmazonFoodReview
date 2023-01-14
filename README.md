@@ -24,7 +24,7 @@ import warnings; warnings.simplefilter('ignore')
 # For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
 
 import os
-for dirname, _, filenames in os.walk('/kaggle/input'):
+for dirname, _, filenames in os.walk('/Downloads/input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
 
@@ -97,26 +97,67 @@ Output
 ```
 (267, 11313)
 ```
+```
+# Average PREDICTED rating for each item
+preds_df.mean().head()
+```
+Output
+```
+ProductId
+7310172001    0.001174
+7310172101    0.001174
+7800648702    0.004557
+B00004CI84    0.039487
+B00004CXX9    0.039487
+dtype: float64
+```
 
-ProductId 	7310172001 	7310172101 	7800648702 	B00004CI84 	B00004CXX9 	B00004RBDU 	B00004RBDZ 	B00004RYGX 	B00004S1C6 	B000052Y74 	... 	B009KAQZ9G 	B009KAQZIM 	B009KOHGEK 	B009KP6HBM 	B009LRLB6U 	B009LT26BC 	B009M2LUEW 	B009PCDDO4 	B009QEBGIQ 	B009RB4GO4
-UserId 																					
-A100WO06OQR8BQ 	0.0 	0.0 	0.0 	0.0 	0.0 	1.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
-A106ZCP7RSXMRU 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
-A1080SE9X3ECK0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
-A10G136JEISLVR 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
-A11ED8O95W2103 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
+```
+rmse_df = pd.concat([final_ratings_matrix.mean(), preds_df.mean()], axis=1)
+rmse_df.columns = ['Avg_actual_ratings', 'Avg_predicted_ratings']
+print(rmse_df.shape)
+rmse_df['item_index'] = np.arange(0, rmse_df.shape[0], 1)
+rmse_df.head()
+```
+
+```
+(11313, 2)
+```
+```
+RMSE = round((((rmse_df.Avg_actual_ratings - rmse_df.Avg_predicted_ratings) ** 2).mean() ** 0.5), 5)
+print('\nRMSE SVD Model = {} \n'.format(RMSE))
+```
+Output
+```
+RMSE SVD Model = 0.00995 
+```
+
+Get top - K ( K = 5) recommendations. Since our goal is to recommend new products to each user based on his/her habits, we will recommend 5 new products.
+
+```
+# Enter 'userID' and 'num_recommendations' for the user #
+userID = 200
+num_recommendations = 5
+recommend_items(userID, pivot_df, preds_df, num_recommendations)
+```
+```
+Below are the recommended items for user(user_id = 200):
+
+                   user_ratings  user_predictions
+Recommended Items                                
+B004BKLHOS                  0.0          0.823791
+B0061IUIDY                  0.0          0.622365
+B004JRO1S2                  0.0          0.538305
+B0061IUKDM                  0.0          0.534249
+B000EQT77M                  0.0          0.529929
+```
 
 
+Conclusion
 
+Model-based Collaborative Filtering is a personalised recommender system, the recommendations are based on the past behavior of the user and it is not dependent on any additional information.
 
-
-
-
-
-
-
-
-
+The Popularity-based recommender system is non-personalised and the recommendations are based on frequecy counts, which may be not suitable to the user.You can see the differance above for the user id 121 & 200, The Popularity based model has recommended the same set of 5 products to both but Collaborative Filtering based model has recommended entire different list based on the user past purchase history
 
 
 
