@@ -250,7 +250,7 @@ pivot_df.fillna(0,inplace=True)
 print(pivot_df.shape)
 pivot_df.head()
 ```
-Output
+**Output**
 ```
 (267, 11313)
 ```
