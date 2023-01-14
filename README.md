@@ -114,8 +114,6 @@ with sns.axes_style('white'):
 **Output**
 ![image](https://user-images.githubusercontent.com/10477414/212487413-dded37f9-e5b7-479a-b08b-63cb70498b90.png)
 
-Split the data randomly into train and test dataset. 
-( For example split it in 70/30 ratio)
 ```
 # Number of unique user id and product id in the data
 print('Number of unique USERS in Raw data = ', df['UserId'].nunique())
@@ -198,6 +196,8 @@ given_num_of_ratings =  20829
 possible_num_of_ratings =  3020571
 density: 0.69%
 ```
+**Split the data randomly into train and test dataset. 
+( For example split it in 70/30 ratio)**
 ```
 #Split the training and test data in the ratio 70:30
 train_data, test_data = train_test_split(df_final, test_size = 0.3, random_state=0)
@@ -219,22 +219,22 @@ def shape():
     print("Train data shape: ", train_data.shape)
 shape()
 ```
-Output
+**Output**
 ```
 Test data shape:  (6883, 3)
 Train data shape:  (16058, 3)
 ```
 
-Build Collaborative Filtering model
-Model-based Collaborative Filtering: Singular Value Decomposition
+**Build Collaborative Filtering model
+Model-based Collaborative Filtering: Singular Value Decomposition**
 ```
 df_CF = pd.concat([train_data, test_data]).reset_index()
 df_CF.tail()
 ```
 
-Output
+**Output**
 ```
-	    index 	ProductId 	UserId 	        Score
+	 index 	ProductId 	UserId 	        Score
 22936 	275741 	B001M23WVY 	AY1EF0GOH80EK 	2
 22937 	281102 	B002R8SLUY 	A16AXQ11SZA8SQ 	5
 22938 	205589 	B00473PVVO 	A281NPSIMI1C2R 	5
@@ -254,11 +254,94 @@ Output
 ```
 (267, 11313)
 ```
+
+**SVD method**
+**SVD is best to apply on a large sparse matrix**
+```
+from scipy.sparse.linalg import svds
+# Singular Value Decomposition
+U, sigma, Vt = svds(pivot_df, k = 50)
+# Construct diagonal array in SVD
+sigma = np.diag(sigma)
+```
+
+**Note that for sparse matrices, you can use the sparse.linalg.svds() function to perform the decomposition.**
+
+SVD is useful in many tasks, such as data compression, noise reduction similar to Principal Component Analysis and Latent Semantic Indexing (LSI), used in document retrieval and word similarity in Text mining
+```
+all_user_predicted_ratings = np.dot(np.dot(U, sigma), Vt) 
+
+# Predicted ratings
+preds_df = pd.DataFrame(all_user_predicted_ratings, columns = pivot_df.columns)
+preds_df.head()
+```
+```
+# Recommend the items with the highest predicted ratings
+
+def recommend_items(userID, pivot_df, preds_df, num_recommendations):
+      
+    user_idx = userID-1 # index starts at 0
+    
+    # Get and sort the user's ratings
+    sorted_user_ratings = pivot_df.iloc[user_idx].sort_values(ascending=False)
+    #sorted_user_ratings
+    sorted_user_predictions = preds_df.iloc[user_idx].sort_values(ascending=False)
+    #sorted_user_predictions
+
+    temp = pd.concat([sorted_user_ratings, sorted_user_predictions], axis=1)
+    temp.index.name = 'Recommended Items'
+    temp.columns = ['user_ratings', 'user_predictions']
+    
+    temp = temp.loc[temp.user_ratings == 0]   
+    temp = temp.sort_values('user_predictions', ascending=False)
+    print('\nBelow are the recommended items for user(user_id = {}):\n'.format(userID))
+    print(temp.head(num_recommendations))
+```
+```
+#Enter 'userID' and 'num_recommendations' for the user #
+userID = 121
+num_recommendations = 5
+recommend_items(userID, pivot_df, preds_df, num_recommendations)
+```
+```
+Below are the recommended items for user(user_id = 121):
+
+                   user_ratings  user_predictions
+Recommended Items                                
+B004E4EBMG                  0.0          1.553272
+B004JGQ15E                  0.0          0.972833
+B0061IUIDY                  0.0          0.923977
+B0041NYV8E                  0.0          0.901132
+B001LG940E                  0.0          0.893659
+```
+
+**Evaluate the model. ( Once the model is trained on the training data, it can be used to compute the error (RMSE) on predictions made on the test data.)**
+**Evaluation of Model-based Collaborative Filtering (SVD)**
+
+```
+# Actual ratings given by the users
+final_ratings_matrix.head()
+```
+```
+# Average ACTUAL rating for each item
+final_ratings_matrix.mean().head()
+```
+**Output**
+```
+ProductId
+7310172001    0.037453
+7310172101    0.037453
+7800648702    0.018727
+B00004CI84    0.044944
+B00004CXX9    0.044944
+dtype: float64
+```
+**Display average predicted rating for each item**
 ```
 # Average PREDICTED rating for each item
 preds_df.mean().head()
 ```
-Output
+**Output**
 ```
 ProductId
 7310172001    0.001174
@@ -276,7 +359,7 @@ print(rmse_df.shape)
 rmse_df['item_index'] = np.arange(0, rmse_df.shape[0], 1)
 rmse_df.head()
 ```
-
+**Output**
 ```
 (11313, 2)
 ```
@@ -284,12 +367,12 @@ rmse_df.head()
 RMSE = round((((rmse_df.Avg_actual_ratings - rmse_df.Avg_predicted_ratings) ** 2).mean() ** 0.5), 5)
 print('\nRMSE SVD Model = {} \n'.format(RMSE))
 ```
-Output
+**Output**
 ```
 RMSE SVD Model = 0.00995 
 ```
 
-Get top - K ( K = 5) recommendations. Since our goal is to recommend new products to each user based on his/her habits, we will recommend 5 new products.
+**Get top - K ( K = 5) recommendations. Since our goal is to recommend new products to each user based on his/her habits, we will recommend 5 new products.**
 
 ```
 # Enter 'userID' and 'num_recommendations' for the user #
@@ -313,9 +396,6 @@ B000EQT77M                  0.0          0.529929
 Conclusion
 
 Model-based Collaborative Filtering is a personalised recommender system, the recommendations are based on the past behavior of the user and it is not dependent on any additional information.
-
-The Popularity-based recommender system is non-personalised and the recommendations are based on frequecy counts, which may be not suitable to the user.You can see the differance above for the user id 121 & 200, The Popularity based model has recommended the same set of 5 products to both but Collaborative Filtering based model has recommended entire different list based on the user past purchase history
-
 
 
 
