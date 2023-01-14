@@ -31,20 +31,41 @@ for dirname, _, filenames in os.walk('/Downloads/input'):
 #Import the data set
 df = pd.read_csv('/kaggle/input/amazon-fine-food-reviews/Reviews.csv')
 ```
-
+**Display part of Dataset**
 ```
-df.head()
+# see few rows of the imported dataset
+df.tail()
 ```
-
-Split the data randomly into train and test dataset. ( For example split it in 70/30 ratio)
+**Output**
+```
+ 	ProductId 	UserId 		Score
+568449 	B001EO7N10 	A28KG5XORO54AY 	5
+568450 	B003S1WTCU 	A3I8AFVPEE8KI5 	2
+568451 	B004I613EE 	A121AA1GQV751Z 	5
+568452 	B004I613EE 	A3IBEVCTXKNOH 	5
+568453 	B001LR2CU2 	A3LGQPJCZVL9UC 	5
+```
+**Display number of rows and columns**
+```
+# Check the number of rows and columns
+rows, columns = df.shape
+print("No of rows: ", rows) 
+print("No of columns: ", columns) 
+```
+**Output**
+```
+No of rows:  568454
+No of columns:  3
+```
+**Split the data randomly into train and test dataset. 
+( For example split it in 70/30 ratio)**
 ```
 #Split the training and test data in the ratio 70:30
 train_data, test_data = train_test_split(df_final, test_size = 0.3, random_state=0)
 
 print(train_data.head(5))
 ```
-
-Output
+**Output**
 ```
          ProductId          UserId  Score
 399863  B002IEVJRY  A1N5FSCYN4796F      3
