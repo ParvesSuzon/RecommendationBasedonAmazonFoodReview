@@ -114,6 +114,7 @@ with sns.axes_style('white'):
 **Output**
 ![image](https://user-images.githubusercontent.com/10477414/212487413-dded37f9-e5b7-479a-b08b-63cb70498b90.png)
 
+**Display number of unique user id and product id in the data**
 ```
 # Number of unique user id and product id in the data
 print('Number of unique USERS in Raw data = ', df['UserId'].nunique())
