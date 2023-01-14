@@ -24,7 +24,7 @@ for dirname, _, filenames in os.walk('/Downloads/input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
 
-# Any results you write to the current directory are saved as output.
+# Any results we write to the current directory are saved as output.
 ```
 **Importing the Dataset**
 ```
@@ -265,7 +265,7 @@ U, sigma, Vt = svds(pivot_df, k = 50)
 sigma = np.diag(sigma)
 ```
 
-**Note that for sparse matrices, you can use the sparse.linalg.svds() function to perform the decomposition.**
+**Note that for sparse matrices, we can use the sparse.linalg.svds() function to perform the decomposition.**
 
 SVD is useful in many tasks, such as data compression, noise reduction similar to Principal Component Analysis and Latent Semantic Indexing (LSI), used in document retrieval and word similarity in Text mining
 ```
@@ -393,7 +393,7 @@ B000EQT77M                  0.0          0.529929
 ```
 
 
-Conclusion
+**Conclusion**
 
 Model-based Collaborative Filtering is a personalised recommender system, the recommendations are based on the past behavior of the user and it is not dependent on any additional information.
 
