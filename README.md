@@ -39,4 +39,20 @@ df = pd.read_csv('/kaggle/input/amazon-fine-food-reviews/Reviews.csv')
 df.head()
 ```
 
+Split the data randomly into train and test dataset. ( For example split it in 70/30 ratio)
+```
+#Split the training and test data in the ratio 70:30
+train_data, test_data = train_test_split(df_final, test_size = 0.3, random_state=0)
 
+print(train_data.head(5))
+```
+
+Output
+```
+         ProductId          UserId  Score
+399863  B002IEVJRY  A1N5FSCYN4796F      3
+20262   B001BDDTB2  A1Q7A78VSQ5GQ4      5
+139611  B001BCXTGS  A2PNOU7NXB1JE4      3
+455504  B005HG9ERW  A2SZLNSI5KOQJT      3
+512008  B0028PDER6   ALSAOZ1V546VT      5
+```
