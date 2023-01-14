@@ -76,6 +76,17 @@ print('Number of missing values across columns-\n', df.isnull().sum())
 **There are no missing values with total records 568454**
 
 ```
+# Summary statistics of 'rating' variable
+# Summary statistics of 'rating' variable
+df[['Score']].describe().transpose()
+```
+**Output**
+```
+ 	count 		mean 		std 		min 	25% 	50% 	75% 	max
+Score 	568454.0 	4.183199 	1.310436 	1.0 	4.0 	5.0 	5.0 	5.0
+```
+**Display minimum and maximum ratings**
+```
 # find minimum and maximum ratings 
 
 def find_min_max_rating():
@@ -98,15 +109,6 @@ with sns.axes_style('white'):
 ```
 **Output**
 ![image](https://user-images.githubusercontent.com/10477414/212487413-dded37f9-e5b7-479a-b08b-63cb70498b90.png)
-
-```
-# Summary statistics of 'rating' variable
-# Summary statistics of 'rating' variable
-df[['Score']].describe().transpose()
-```
-**Output**
- 	count 		mean 		std 		min 	25% 	50% 	75% 	max
-Score 	568454.0 	4.183199 	1.310436 	1.0 	4.0 	5.0 	5.0 	5.0
 
 **Split the data randomly into train and test dataset. 
 ( For example split it in 70/30 ratio)**
