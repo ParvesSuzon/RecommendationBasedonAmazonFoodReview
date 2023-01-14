@@ -56,3 +56,69 @@ Output
 455504  B005HG9ERW  A2SZLNSI5KOQJT      3
 512008  B0028PDER6   ALSAOZ1V546VT      5
 ```
+```
+def shape():
+    print("Test data shape: ", test_data.shape)
+    print("Train data shape: ", train_data.shape)
+shape()
+```
+Output
+```
+Test data shape:  (6883, 3)
+Train data shape:  (16058, 3)
+```
+
+Build Collaborative Filtering model
+Model-based Collaborative Filtering: Singular Value Decomposition
+```
+df_CF = pd.concat([train_data, test_data]).reset_index()
+df_CF.tail()
+```
+
+Output
+```
+	    index 	ProductId 	UserId 	        Score
+22936 	275741 	B001M23WVY 	AY1EF0GOH80EK 	2
+22937 	281102 	B002R8SLUY 	A16AXQ11SZA8SQ 	5
+22938 	205589 	B00473PVVO 	A281NPSIMI1C2R 	5
+22939 	303238 	B0002DGRZC 	AJD41FBJD9010 	5
+22940 	36703 	B000EEWZD2 	A2M9D9BDHONV3Y 	3
+```
+
+```
+#User-based Collaborative Filtering
+# Matrix with row per 'user' and column per 'item' 
+pivot_df = pd.pivot_table(df_CF,index=['UserId'], columns = 'ProductId', values = "Score")
+pivot_df.fillna(0,inplace=True)
+print(pivot_df.shape)
+pivot_df.head()
+```
+Output
+```
+(267, 11313)
+```
+
+ProductId 	7310172001 	7310172101 	7800648702 	B00004CI84 	B00004CXX9 	B00004RBDU 	B00004RBDZ 	B00004RYGX 	B00004S1C6 	B000052Y74 	... 	B009KAQZ9G 	B009KAQZIM 	B009KOHGEK 	B009KP6HBM 	B009LRLB6U 	B009LT26BC 	B009M2LUEW 	B009PCDDO4 	B009QEBGIQ 	B009RB4GO4
+UserId 																					
+A100WO06OQR8BQ 	0.0 	0.0 	0.0 	0.0 	0.0 	1.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
+A106ZCP7RSXMRU 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
+A1080SE9X3ECK0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
+A10G136JEISLVR 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
+A11ED8O95W2103 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	... 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0 	0.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
