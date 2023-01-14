@@ -30,3 +30,13 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 
 # Any results you write to the current directory are saved as output.
 ```
+```
+#Import the data set
+df = pd.read_csv('/kaggle/input/amazon-fine-food-reviews/Reviews.csv')
+```
+
+```
+df.head()
+```
+
+
