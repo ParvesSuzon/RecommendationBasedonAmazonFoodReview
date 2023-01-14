@@ -1,4 +1,4 @@
-Import Necessary Libraries
+**Import Necessary Libraries**
 ```
 import numpy as np
 import pandas as pd
@@ -26,6 +26,7 @@ for dirname, _, filenames in os.walk('/Downloads/input'):
 
 # Any results you write to the current directory are saved as output.
 ```
+**Importing the Dataset**
 ```
 #Import the data set
 df = pd.read_csv('/kaggle/input/amazon-fine-food-reviews/Reviews.csv')
