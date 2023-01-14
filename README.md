@@ -57,6 +57,58 @@ print("No of columns: ", columns)
 No of rows:  568454
 No of columns:  3
 ```
+```
+#Check Data types
+df.dtypes
+```
+**Output**
+```
+ProductId    object
+UserId       object
+Score         int64
+dtype: object
+```
+**Check if there are any missing values present**
+```
+# Check for missing values present
+print('Number of missing values across columns-\n', df.isnull().sum())
+```
+**There are no missing values with total records 568454**
+
+```
+# find minimum and maximum ratings 
+
+def find_min_max_rating():
+    print('The minimum rating is: %d' %(df['Score'].min()))
+    print('The maximum rating is: %d' %(df['Score'].max()))
+    
+find_min_max_rating() 
+```
+**Output**
+```
+The minimum rating is: 1
+The maximum rating is: 5
+```
+**Ratings are on scale of 1 - 5**
+```
+# Check the distribution of ratings 
+with sns.axes_style('white'):
+    g = sns.factorplot("Score", data=df, aspect=2.0,kind='count')
+    g.set_ylabels("Total number of ratings")
+```
+**Output**
+```
+![image](https://user-images.githubusercontent.com/10477414/212487276-9c8b0c88-ca9c-465e-aed0-b65a4a9c4364.png)
+```
+```
+# Summary statistics of 'rating' variable
+# Summary statistics of 'rating' variable
+df[['Score']].describe().transpose()
+```
+**Output**
+ 	count 		mean 		std 		min 	25% 	50% 	75% 	max
+Score 	568454.0 	4.183199 	1.310436 	1.0 	4.0 	5.0 	5.0 	5.0
+
 **Split the data randomly into train and test dataset. 
 ( For example split it in 70/30 ratio)**
 ```
