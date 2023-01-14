@@ -57,6 +57,7 @@ print("No of columns: ", columns)
 No of rows:  568454
 No of columns:  3
 ```
+**Display Data types**
 ```
 #Check Data types
 df.dtypes
@@ -75,6 +76,7 @@ print('Number of missing values across columns-\n', df.isnull().sum())
 ```
 **There are no missing values with total records 568454**
 
+**Display summary statistics of input data**
 ```
 # Summary statistics of 'rating' variable
 # Summary statistics of 'rating' variable
@@ -101,6 +103,8 @@ The minimum rating is: 1
 The maximum rating is: 5
 ```
 **Ratings are on scale of 1 - 5**
+
+**Display Distibution of ratings**
 ```
 # Check the distribution of ratings 
 with sns.axes_style('white'):
@@ -112,6 +116,90 @@ with sns.axes_style('white'):
 
 **Split the data randomly into train and test dataset. 
 ( For example split it in 70/30 ratio)**
+```
+**Display number of unique user id and product id in the data**
+```
+# Number of unique user id and product id in the data
+print('Number of unique USERS in Raw data = ', df['UserId'].nunique())
+print('Number of unique ITEMS in Raw data = ', df['ProductId'].nunique())
+```
+**Output**
+```
+Number of unique USERS in Raw data =  256059
+Number of unique ITEMS in Raw data =  74258
+```
+**Take subset of dataset to make it less sparse/more dense. ( For example, keep the users only who has given 50 or more number of ratings)**
+```
+# Top 10 users based on rating
+most_rated = df.groupby('UserId').size().sort_values(ascending=False)[:10]
+most_rated
+```
+**Output**
+```
+UserId
+A3OXHLG6DIBRW8    448
+A1YUL9PCJR3JTY    421
+AY12DBB0U420B     389
+A281NPSIMI1C2R    365
+A1Z54EM24Y40LL    256
+A1TMAVN4CEM8U8    204
+A2MUGFV2TDQ47K    201
+A3TVZM3ZIXG8YW    199
+A3PJZ8TU8FDQ1K    178
+AQQLWCMRNDFGI     176
+dtype: int64
+```
+**Data model preparation as per requirement on number of minimum ratings**
+```
+counts = df['UserId'].value_counts()
+df_final = df[df['UserId'].isin(counts[counts >= 50].index)]
+```
+```
+df_final.head()
+```
+**Output**
+```
+	ProductId 	UserId 		Score
+14 	B001GVISJM 	A2MUGFV2TDQ47K 	5
+44 	B001EO5QW8 	A2G7B7FKP2O2PU 	5
+46 	B001EO5QW8 	AQLL2R1PPR46X 	5
+109 	B001REEG6C 	AY12DBB0U420B 	5
+141 	B001GVISJW 	A2YIO225BTKVPU 	4
+```
+```
+print('Number of users who have rated 50 or more items =', len(df_final))
+print('Number of unique USERS in final data = ', df_final['UserId'].nunique())
+print('Number of unique ITEMS in final data = ', df_final['ProductId'].nunique())
+```
+**Output**
+```
+Number of users who have rated 50 or more items = 22941
+Number of unique USERS in final data =  267
+Number of unique ITEMS in final data =  11313
+```
+
+**df_final has users who have rated 50 or more items**
+
+**Calculate the density of the rating matrix**
+```
+final_ratings_matrix = pd.pivot_table(df_final,index=['UserId'], columns = 'ProductId', values = "Score")
+final_ratings_matrix.fillna(0,inplace=True)
+print('Shape of final_ratings_matrix: ', final_ratings_matrix.shape)
+given_num_of_ratings = np.count_nonzero(final_ratings_matrix)
+print('given_num_of_ratings = ', given_num_of_ratings)
+possible_num_of_ratings = final_ratings_matrix.shape[0] * final_ratings_matrix.shape[1]
+print('possible_num_of_ratings = ', possible_num_of_ratings)
+density = (given_num_of_ratings/possible_num_of_ratings)
+density *= 100
+print ('density: {:4.2f}%'.format(density))
+```
+**Output**
+```
+Shape of final_ratings_matrix:  (267, 11313)
+given_num_of_ratings =  20829
+possible_num_of_ratings =  3020571
+density: 0.69%
+```
 ```
 #Split the training and test data in the ratio 70:30
 train_data, test_data = train_test_split(df_final, test_size = 0.3, random_state=0)
